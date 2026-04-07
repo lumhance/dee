@@ -2410,6 +2410,105 @@
             }
         }
 
+        /* ═══════════════════════════════════════════
+           MOBILE PERFORMANCE — TOUCH DEVICES ONLY
+           ═══════════════════════════════════════════ */
+        @media (pointer: coarse) {
+            /* Kill heavy backdrop-filter on mobile — massive perf win */
+            .btn,
+            .nav-cta,
+            nav.scrolled,
+            .cookie-banner,
+            .floating-badge {
+                -webkit-backdrop-filter: none !important;
+                backdrop-filter: none !important;
+            }
+
+            nav.scrolled {
+                background: rgba(5, 5, 5, 0.95);
+            }
+
+            /* Disable noise overlay — GPU hog on mobile */
+            body::after {
+                display: none !important;
+            }
+
+            /* Disable falling pattern background — huge GPU savings */
+            .site-bg {
+                display: none !important;
+            }
+
+            /* No hero shader on mobile */
+            #hero-shader {
+                display: none !important;
+            }
+
+            /* Kill the ethereal animated backgrounds */
+            .ethereal-bg {
+                display: none !important;
+            }
+
+            /* No tilt/3D transforms on mobile */
+            .tilt-card,
+            .case-card,
+            .pricing-card,
+            .blog-card {
+                transform: none !important;
+                perspective: none;
+            }
+
+            /* Simpler transitions — no spring/expo, just fast ease */
+            .service-card,
+            .metric-card,
+            .pricing-card,
+            .case-study-card,
+            .cta-banner,
+            .faq-item,
+            .step {
+                transition: none !important;
+            }
+
+            /* No hover transforms on touch */
+            .service-card:hover,
+            .metric-card:hover,
+            .pricing-card:hover,
+            .case-study-card:hover,
+            .cta-banner:hover {
+                transform: none !important;
+                box-shadow: none !important;
+            }
+
+            /* Spotlight glow — off on mobile */
+            .glow-spot {
+                display: none !important;
+            }
+
+            /* Smooth scrolling uses CPU — disable for perf */
+            html {
+                scroll-behavior: auto;
+            }
+
+            /* Simpler box-shadows everywhere */
+            .btn::before,
+            .nav-cta::before {
+                box-shadow: inset 0 0 0 1px rgba(170, 202, 255, 0.15),
+                    0 1px 3px rgba(0, 0, 0, 0.4) !important;
+            }
+
+            /* Reduce will-change usage */
+            .marquee-track,
+            .logo-track {
+                will-change: auto !important;
+            }
+
+            /* Simplify the video carousel — no filter on non-active */
+            .video-slide.prev,
+            .video-slide.next {
+                filter: none;
+                opacity: 0.4;
+            }
+        }
+
         /* ── REDUCED MOTION ── */
         @media (prefers-reduced-motion: reduce) {
 
@@ -6764,8 +6863,12 @@
          JAVASCRIPT — Animations, Cursor, GSAP, Carousel, etc.
          ═══════════════════════════════════════════════════════ -->
         <script>
+            // ── MOBILE DETECTION ──
+            var isMobile = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 768;
+
             // ── HERO SHADER BACKGROUND ──
             (function () {
+                if (isMobile) return; // Skip shader on mobile
                 var wrapper = document.getElementById('hero-shader');
                 var canvas = document.getElementById('hero-shader-canvas');
                 if (!canvas || !wrapper) return;
@@ -6882,49 +6985,49 @@
             document.body.style.overflow = '';
             setTimeout(startHeroAnimation, 100);
 
-            // ── CUSTOM CURSOR ──
-            const cursorDot = document.querySelector('.cursor-dot');
-            const cursorRing = document.querySelector('.cursor-ring');
-            let mx = 0, my = 0, cx = 0, cy = 0;
+            // ── CUSTOM CURSOR (desktop only) ──
+            if (!isMobile) {
+                const cursorDot = document.querySelector('.cursor-dot');
+                const cursorRing = document.querySelector('.cursor-ring');
+                let mx = 0, my = 0, cx = 0, cy = 0;
 
-            document.addEventListener('mousemove', e => {
-                mx = e.clientX;
-                my = e.clientY;
-                cursorDot.style.left = mx + 'px';
-                cursorDot.style.top = my + 'px';
-            });
+                document.addEventListener('mousemove', e => {
+                    mx = e.clientX;
+                    my = e.clientY;
+                    cursorDot.style.left = mx + 'px';
+                    cursorDot.style.top = my + 'px';
+                });
 
-            function animateCursor() {
-                cx += (mx - cx) * 0.12;
-                cy += (my - cy) * 0.12;
-                cursorRing.style.left = cx + 'px';
-                cursorRing.style.top = cy + 'px';
-                requestAnimationFrame(animateCursor);
+                function animateCursor() {
+                    cx += (mx - cx) * 0.12;
+                    cy += (my - cy) * 0.12;
+                    cursorRing.style.left = cx + 'px';
+                    cursorRing.style.top = cy + 'px';
+                    requestAnimationFrame(animateCursor);
+                }
+                animateCursor();
+
+                document.querySelectorAll('a, button, .service-card, .metric-card, .case-study-card, input, select, textarea').forEach(el => {
+                    el.addEventListener('mouseenter', () => {
+                        cursorDot.classList.add('hovering');
+                        cursorRing.classList.add('hovering');
+                    });
+                    el.addEventListener('mouseleave', () => {
+                        cursorDot.classList.remove('hovering');
+                        cursorRing.classList.remove('hovering');
+                    });
+                });
+
+                document.querySelectorAll('.service-card').forEach(card => {
+                    card.addEventListener('mousemove', e => {
+                        const rect = card.getBoundingClientRect();
+                        const x = ((e.clientX - rect.left) / rect.width) * 100;
+                        const y = ((e.clientY - rect.top) / rect.height) * 100;
+                        card.style.setProperty('--mouse-x', x + '%');
+                        card.style.setProperty('--mouse-y', y + '%');
+                    });
+                });
             }
-            animateCursor();
-
-            // Hover states for interactive elements
-            document.querySelectorAll('a, button, .service-card, .metric-card, .case-study-card, input, select, textarea').forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    cursorDot.classList.add('hovering');
-                    cursorRing.classList.add('hovering');
-                });
-                el.addEventListener('mouseleave', () => {
-                    cursorDot.classList.remove('hovering');
-                    cursorRing.classList.remove('hovering');
-                });
-            });
-
-            // ── MOUSE TRACKING ON SERVICE CARDS ──
-            document.querySelectorAll('.service-card').forEach(card => {
-                card.addEventListener('mousemove', e => {
-                    const rect = card.getBoundingClientRect();
-                    const x = ((e.clientX - rect.left) / rect.width) * 100;
-                    const y = ((e.clientY - rect.top) / rect.height) * 100;
-                    card.style.setProperty('--mouse-x', x + '%');
-                    card.style.setProperty('--mouse-y', y + '%');
-                });
-            });
 
             // ── NAVBAR ──
             let lastScroll = 0;
@@ -7048,8 +7151,18 @@
             });
 
             // ── GRID SCALE-UP ANIMATIONS ──
-            // Services grid: scale from center
-            (function () {
+            if (isMobile) {
+                // Mobile: simple fade-in only, no scale/fly animations
+                gsap.utils.toArray('.services-grid, .metrics-row, .case-study').forEach(function (el) {
+                    gsap.from(el, {
+                        scrollTrigger: { trigger: el, start: 'top 90%' },
+                        opacity: 0, y: 20, duration: 0.6, ease: 'power2.out'
+                    });
+                });
+            }
+
+            // Services grid: scale from center (desktop only)
+            if (!isMobile) (function () {
                 var grid = document.querySelector('.services-grid');
                 if (grid) {
                     gsap.from(grid, {
@@ -7078,7 +7191,7 @@
             })();
 
             // Metrics grid: scale from center + counter
-            (function () {
+            if (!isMobile) (function () {
                 var grid = document.querySelector('.metrics-row');
                 if (grid) {
                     gsap.from(grid, {
@@ -7135,7 +7248,7 @@
             })();
 
             // Case study: scale from center
-            (function () {
+            if (!isMobile) (function () {
                 var cs = document.querySelector('.case-study');
                 if (cs) {
                     gsap.from(cs, {
@@ -7162,6 +7275,31 @@
                     });
                 }
             })();
+
+            // Mobile counter animation (lightweight)
+            if (isMobile) {
+                gsap.utils.toArray('.metric-number').forEach(function (el) {
+                    var text = el.textContent;
+                    var numMatch = text.match(/[\d.]+/);
+                    if (!numMatch) return;
+                    var target = parseFloat(numMatch[0]);
+                    var suffix = text.replace(numMatch[0], '');
+                    var hasDecimal = numMatch[0].includes('.');
+                    ScrollTrigger.create({
+                        trigger: el, start: 'top 90%', once: true,
+                        onEnter: function () {
+                            var obj = { val: 0 };
+                            gsap.to(obj, {
+                                val: target, duration: 1.5, ease: 'power2.out',
+                                onUpdate: function () {
+                                    if (hasDecimal) el.textContent = obj.val.toFixed(1) + suffix;
+                                    else el.textContent = Math.floor(obj.val) + suffix;
+                                }
+                            });
+                        }
+                    });
+                });
+            }
 
             // Process steps
             gsap.utils.toArray('.step').forEach((step, i) => {
@@ -7382,22 +7520,24 @@
 
             // ── PARTICLE CANVAS (REMOVED) ──
 
-            // ── TILT EFFECT FOR CARDS ──
-            document.querySelectorAll('.case-card, .pricing-card, .blog-card').forEach(card => {
-                card.addEventListener('mousemove', e => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-                    const rotateX = ((y - centerY) / centerY) * -3;
-                    const rotateY = ((x - centerX) / centerX) * 3;
-                    card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+            // ── TILT EFFECT FOR CARDS (desktop only) ──
+            if (!isMobile) {
+                document.querySelectorAll('.case-card, .pricing-card, .blog-card').forEach(card => {
+                    card.addEventListener('mousemove', e => {
+                        const rect = card.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        const centerX = rect.width / 2;
+                        const centerY = rect.height / 2;
+                        const rotateX = ((y - centerY) / centerY) * -3;
+                        const rotateY = ((x - centerX) / centerX) * 3;
+                        card.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+                    });
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) translateY(0)';
+                    });
                 });
-                card.addEventListener('mouseleave', () => {
-                    card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) translateY(0)';
-                });
-            });
+            }
 
             // ── GSAP ANIMATIONS FOR NEW SECTIONS ──
 
@@ -7480,86 +7620,80 @@
                 });
             });
 
-            // ── ETHEREAL SHADOW ANIMATION ──
-            document.querySelectorAll('[data-ethereal]').forEach(inner => {
-                const filterId = inner.getAttribute('data-ethereal');
-                inner.style.filter = `url(#${filterId}) blur(4px)`;
-                const hueEl = inner.querySelector('.ethereal-hue');
-                if (hueEl) {
-                    let hue = 0;
-                    const speed = 2; // degrees per frame
-                    function animateHue() {
-                        hue = (hue + speed) % 360;
-                        hueEl.setAttribute('values', String(hue));
-                        requestAnimationFrame(animateHue);
-                    }
-                    animateHue();
-                }
-            });
-
-            // ── HOVER CIRCLE EFFECT ──
-            function initHoverCircles(el) {
-                let isListening = false;
-                let lastAdded = 0;
-
-                function createCircle(x, y) {
-                    const btnWidth = el.offsetWidth;
-                    const xPos = x / btnWidth;
-                    const startColor = getComputedStyle(el).getPropertyValue('--circle-start').trim() || '#a0d9f8';
-                    const endColor = getComputedStyle(el).getPropertyValue('--circle-end').trim() || '#3a5bbf';
-                    const bg = `linear-gradient(to right, ${startColor} ${xPos * 100}%, ${endColor} ${xPos * 100}%)`;
-
-                    const circle = document.createElement('div');
-                    circle.className = 'hover-circle';
-                    circle.style.left = x + 'px';
-                    circle.style.top = y + 'px';
-                    circle.style.background = bg;
-                    el.appendChild(circle);
-
-                    requestAnimationFrame(() => {
-                        circle.classList.add('fade-in');
-                    });
-
-                    setTimeout(() => {
-                        circle.classList.remove('fade-in');
-                        circle.classList.add('fade-out');
-                    }, 1000);
-
-                    setTimeout(() => {
-                        circle.remove();
-                    }, 2200);
-                }
-
-                el.addEventListener('pointermove', (e) => {
-                    if (!isListening) return;
-                    const now = Date.now();
-                    if (now - lastAdded > 100) {
-                        lastAdded = now;
-                        const rect = el.getBoundingClientRect();
-                        createCircle(e.clientX - rect.left, e.clientY - rect.top);
+            // ── ETHEREAL SHADOW ANIMATION (desktop only) ──
+            if (!isMobile) {
+                document.querySelectorAll('[data-ethereal]').forEach(inner => {
+                    const filterId = inner.getAttribute('data-ethereal');
+                    inner.style.filter = `url(#${filterId}) blur(4px)`;
+                    const hueEl = inner.querySelector('.ethereal-hue');
+                    if (hueEl) {
+                        let hue = 0;
+                        const speed = 2;
+                        function animateHue() {
+                            hue = (hue + speed) % 360;
+                            hueEl.setAttribute('values', String(hue));
+                            requestAnimationFrame(animateHue);
+                        }
+                        animateHue();
                     }
                 });
-
-                el.addEventListener('pointerenter', () => { isListening = true; });
-                el.addEventListener('pointerleave', () => { isListening = false; });
             }
 
-            document.querySelectorAll('.btn, .nav-cta, .quiz-btn').forEach(initHoverCircles);
+            // ── HOVER CIRCLE EFFECT (desktop only) ──
+            if (!isMobile) {
+                function initHoverCircles(el) {
+                    let isListening = false;
+                    let lastAdded = 0;
 
-            // Also init on dynamically added cookie buttons (after insertAdjacentHTML)
-            const cookieObserver = new MutationObserver((mutations) => {
-                mutations.forEach(m => {
-                    m.addedNodes.forEach(node => {
-                        if (node.nodeType === 1) {
-                            node.querySelectorAll && node.querySelectorAll('.cookie-accept, .cookie-decline').forEach(initHoverCircles);
-                            if (node.classList && (node.classList.contains('cookie-accept') || node.classList.contains('cookie-decline'))) {
-                                initHoverCircles(node);
-                            }
+                    function createCircle(x, y) {
+                        const btnWidth = el.offsetWidth;
+                        const xPos = x / btnWidth;
+                        const startColor = getComputedStyle(el).getPropertyValue('--circle-start').trim() || '#a0d9f8';
+                        const endColor = getComputedStyle(el).getPropertyValue('--circle-end').trim() || '#3a5bbf';
+                        const bg = `linear-gradient(to right, ${startColor} ${xPos * 100}%, ${endColor} ${xPos * 100}%)`;
+
+                        const circle = document.createElement('div');
+                        circle.className = 'hover-circle';
+                        circle.style.left = x + 'px';
+                        circle.style.top = y + 'px';
+                        circle.style.background = bg;
+                        el.appendChild(circle);
+
+                        requestAnimationFrame(() => { circle.classList.add('fade-in'); });
+                        setTimeout(() => { circle.classList.remove('fade-in'); circle.classList.add('fade-out'); }, 1000);
+                        setTimeout(() => { circle.remove(); }, 2200);
+                    }
+
+                    el.addEventListener('pointermove', (e) => {
+                        if (!isListening) return;
+                        const now = Date.now();
+                        if (now - lastAdded > 100) {
+                            lastAdded = now;
+                            const rect = el.getBoundingClientRect();
+                            createCircle(e.clientX - rect.left, e.clientY - rect.top);
                         }
                     });
+
+                    el.addEventListener('pointerenter', () => { isListening = true; });
+                    el.addEventListener('pointerleave', () => { isListening = false; });
+                }
+
+                document.querySelectorAll('.btn, .nav-cta, .quiz-btn').forEach(initHoverCircles);
+
+                const cookieObserver = new MutationObserver((mutations) => {
+                    mutations.forEach(m => {
+                        m.addedNodes.forEach(node => {
+                            if (node.nodeType === 1) {
+                                node.querySelectorAll && node.querySelectorAll('.cookie-accept, .cookie-decline').forEach(initHoverCircles);
+                                if (node.classList && (node.classList.contains('cookie-accept') || node.classList.contains('cookie-decline'))) {
+                                    initHoverCircles(node);
+                                }
+                            }
+                        });
+                    });
                 });
-            });
-            cookieObserver.observe(document.body, { childList: true, subtree: true });
+                cookieObserver.observe(document.body, { childList: true, subtree: true });
+            }
 
             // ── COOKIE BANNER ──
             const cookieBannerHTML = `
@@ -7591,7 +7725,8 @@
 
             // ── FLOATING BADGE (removed) ──
 
-            // ── FALLING PATTERN BACKGROUND ──
+            // ── FALLING PATTERN BACKGROUND (skip on mobile) ──
+            if (isMobile) { /* skip — hidden via CSS */ } else {
             const fpColor = '#E5E7EB';
             const bgHTML = `
             <div class="site-bg">
@@ -7656,6 +7791,7 @@
             requestAnimationFrame(() => {
                 document.getElementById('fallingPattern').classList.add('visible');
             });
+            } // end desktop-only falling pattern
 
             // ── SMOOTH SCROLL SPEED ENHANCEMENT ──
             let scrollTarget = 0;
@@ -7804,36 +7940,40 @@
                 }
             }
 
-            // Apply text scramble to section headers on scroll
-            document.querySelectorAll('.section-label').forEach(label => {
-                const scrambleObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const scrambler = new TextScramble(entry.target);
-                            const originalText = entry.target.textContent;
-                            scrambler.setText(originalText);
-                            scrambleObserver.unobserve(entry.target);
-                        }
-                    });
-                }, { threshold: 0.8 });
-                scrambleObserver.observe(label);
-            });
+            // Apply text scramble to section headers on scroll (desktop only)
+            if (!isMobile) {
+                document.querySelectorAll('.section-label').forEach(label => {
+                    const scrambleObserver = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                const scrambler = new TextScramble(entry.target);
+                                const originalText = entry.target.textContent;
+                                scrambler.setText(originalText);
+                                scrambleObserver.unobserve(entry.target);
+                            }
+                        });
+                    }, { threshold: 0.8 });
+                    scrambleObserver.observe(label);
+                });
+            }
 
             // Ripple effect removed — replaced by hover-circle effect
 
-            // ── SMOOTH MOUSEMOVE PARALLAX FOR SECTIONS ──
-            document.addEventListener('mousemove', (e) => {
-                const heroGradients = document.querySelectorAll('.hero-gradient');
-                const mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-                const mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+            // ── SMOOTH MOUSEMOVE PARALLAX (desktop only) ──
+            if (!isMobile) {
+                document.addEventListener('mousemove', (e) => {
+                    const heroGradients = document.querySelectorAll('.hero-gradient');
+                    const mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+                    const mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
 
-                heroGradients.forEach((grad, i) => {
-                    const speed = (i + 1) * 8;
-                    const x = mouseX * speed;
-                    const y = mouseY * speed;
-                    grad.style.transform = `translate(${x}px, ${y}px)`;
+                    heroGradients.forEach((grad, i) => {
+                        const speed = (i + 1) * 8;
+                        const x = mouseX * speed;
+                        const y = mouseY * speed;
+                        grad.style.transform = `translate(${x}px, ${y}px)`;
+                    });
                 });
-            });
+            }
 
             // ── PAGE VISIBILITY API ──
             document.addEventListener('visibilitychange', () => {
@@ -7984,16 +8124,13 @@
                 });
             }
 
-            // ── HOVER SOUND EFFECT (SUBTLE) ──
-            // Preload hover interaction for cards
-            document.querySelectorAll('.service-card, .case-card, .pricing-card, .blog-card, .feature-card, .team-card').forEach(card => {
-                card.addEventListener('mouseenter', () => {
-                    card.style.willChange = 'transform, box-shadow';
+            // ── HOVER PRELOAD (desktop only) ──
+            if (!isMobile) {
+                document.querySelectorAll('.service-card, .case-card, .pricing-card, .blog-card, .feature-card, .team-card').forEach(card => {
+                    card.addEventListener('mouseenter', () => { card.style.willChange = 'transform, box-shadow'; });
+                    card.addEventListener('mouseleave', () => { card.style.willChange = 'auto'; });
                 });
-                card.addEventListener('mouseleave', () => {
-                    card.style.willChange = 'auto';
-                });
-            });
+            }
 
             // ── TYPED CURSOR FOR HERO ──
             const heroSubtext = document.querySelector('.hero-content p');
@@ -8072,35 +8209,35 @@
             });
 
 
-            // ── SPOTLIGHT GLOW ON CARDS ──
-            (function () {
-                // Target cards: pricing, metrics, testimonials, cta-banner
-                var glowTargets = document.querySelectorAll(
-                    '.pricing-card, .metric-card, .case-study-card, .cta-banner'
-                );
+            // ── SPOTLIGHT GLOW ON CARDS (desktop only) ──
+            if (!isMobile) {
+                (function () {
+                    var glowTargets = document.querySelectorAll(
+                        '.pricing-card, .metric-card, .case-study-card, .cta-banner'
+                    );
 
-                glowTargets.forEach(function (card) {
-                    // Inject glow element inside each card
-                    var spot = document.createElement('div');
-                    spot.className = 'glow-spot';
-                    spot.innerHTML = '<div class="glow-spot-border"></div><div class="glow-spot-inner"></div>';
-                    card.appendChild(spot);
+                    glowTargets.forEach(function (card) {
+                        var spot = document.createElement('div');
+                        spot.className = 'glow-spot';
+                        spot.innerHTML = '<div class="glow-spot-border"></div><div class="glow-spot-inner"></div>';
+                        card.appendChild(spot);
 
-                    card.addEventListener('pointerenter', function () {
-                        spot.style.opacity = '1';
+                        card.addEventListener('pointerenter', function () {
+                            spot.style.opacity = '1';
+                        });
+                        card.addEventListener('pointerleave', function () {
+                            spot.style.opacity = '0';
+                        });
+                        card.addEventListener('pointermove', function (e) {
+                            var rect = card.getBoundingClientRect();
+                            var x = e.clientX - rect.left;
+                            var y = e.clientY - rect.top;
+                            spot.style.setProperty('--glow-x', x + 'px');
+                            spot.style.setProperty('--glow-y', y + 'px');
+                        });
                     });
-                    card.addEventListener('pointerleave', function () {
-                        spot.style.opacity = '0';
-                    });
-                    card.addEventListener('pointermove', function (e) {
-                        var rect = card.getBoundingClientRect();
-                        var x = e.clientX - rect.left;
-                        var y = e.clientY - rect.top;
-                        spot.style.setProperty('--glow-x', x + 'px');
-                        spot.style.setProperty('--glow-y', y + 'px');
-                    });
-                });
-            })();
+                })();
+            }
 
             // ── CONSOLE EASTER EGG ──
             console.log('%c LUMHANCE ', 'background: #E5E7EB; color: #050505; padding: 8px 16px; font-size: 16px; font-weight: 300; border-radius: 4px;');
