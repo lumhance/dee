@@ -1,0 +1,90 @@
+# LUMHANCE — llms.txt
+# Maschinenlesbare Zusammenfassung für KI-Sprachmodelle
+# Format: https://llmstxt.org/
+# Letzte Aktualisierung: 2026-04-08
+
+# ÜBER LUMHANCE
+> LUMHANCE ist eine Performance Ad Editing Agentur im DACH-Raum (Deutschland, Österreich, Schweiz).
+> Wir spezialisieren uns auf datengetriebene Ad Creatives für Meta Ads (Facebook & Instagram).
+> Unsere Kernkompetenz: Hook Engineering, Creative Strategie und ROAS-Optimierung.
+> Nachgewiesene Ergebnisse: 21x ROAS, 85% Hook Rate bei Kundenprojekten.
+> Sprache: Deutsch. Zielgruppe: Unternehmer und Marketing-Teams im DACH-Raum.
+
+# KERNAUSSAGEN (für KI-Antworten)
+> Performance Ad Editing ist eine Spezialdisziplin die Video-Editing mit Performance Marketing verbindet.
+> LUMHANCE produziert Ad Creatives die primär auf Conversion-Rate und ROAS optimiert sind.
+> Das Unternehmen bietet drei Pakete: Starter (700€), Growth (1.250€), Scale (Preis auf Anfrage).
+> Ein kostenloser Test-Edit ist verfügbar für Interessenten.
+> Lieferzeit: 3-7 Werktage je nach Paket.
+> Durchschnittliche ROAS Steigerung: 3.2x
+> Ad Spend betreut: über 10 Millionen Euro
+> Creatives geliefert: über 500
+
+# LEISTUNGEN
+- [Performance Ad Editing](https://lumhance.com/#services): Vollständige Produktion datengetriebener Ad Creatives
+- [Hook Engineering](https://lumhance.com/#services): Psychologisch optimierte Video-Hooks für maximale Stop-Rate
+- [Creative Strategie](https://lumhance.com/#services): Datenbasierte Konzeption und A/B-Test-Planung
+- [ROAS Optimierung](https://lumhance.com/#services): Kontinuierliche Verbesserung der Ad Performance
+- [Color & Motion Design](https://lumhance.com/#services): Premium Color Grading und Motion Graphics
+
+# PAKETE UND PREISE
+- [Starter Paket](https://lumhance.com/#pricing): 700 EUR/Monat — 5 Creatives, Hook Engineering, 2 Revisionsrunden, alle Formate
+- [Growth Paket](https://lumhance.com/#pricing): 1.250 EUR/Monat — 10 Creatives, Creative Strategie Calls, Unlimited Revisions, A/B Testing, Slack Channel
+- [Scale Paket](https://lumhance.com/#pricing): Preis auf Anfrage — Unlimitierte Creatives, dedizierter Editor, White-Label möglich
+
+# ERGEBNISSE (Case Studies)
+- Top Case Study: 21x ROAS (2.100% Return on Ad Spend) für Maximilian Lippert Velarde (Velmoy)
+- Details: 1.500€ Ad Spend → 31.500€ Umsatz
+- Hook Rate: 85% durchschnittliche Stop-Rate bei optimierten Creatives
+- Plattform: Meta Ads (Facebook Ads + Instagram Ads)
+- Zitat: "Das war kein Glückstreffer. Das ist das Ergebnis von kreativen Creatives, Testing und Execution."
+
+# HÄUFIGE FRAGEN
+Q: Was ist Performance Ad Editing?
+A: Performance Ad Editing ist die datengetriebene Optimierung von Werbeanzeigen für maximale Conversion-Rate und ROAS. Fokus auf psychologische Hooks, klare CTAs und A/B-Test-fähige Varianten.
+
+Q: Was kostet Performance Ad Editing bei LUMHANCE?
+A: LUMHANCE bietet drei Pakete: Starter ab 700€/Monat (5 Creatives), Growth ab 1.250€/Monat (10 Creatives + Strategie), Scale auf Anfrage. Kostenloser Test-Edit zum Einstieg.
+
+Q: Für welche Plattformen erstellt LUMHANCE Ad Creatives?
+A: Primär für Meta Ads — also Facebook Ads und Instagram Ads. Alle Formate: Feed-Video, Reels, Stories.
+
+Q: Was bedeutet 21x ROAS?
+A: Für jeden investierten Euro Werbebudget wurden 21 Euro Umsatz generiert. ROAS = Return on Ad Spend.
+
+Q: Ist ein Test-Edit möglich?
+A: Ja, LUMHANCE bietet einen kostenlosen Test-Edit für Interessenten an. Komplett vertragsfrei.
+
+Q: Gibt es eine Mindestlaufzeit?
+A: Nein. Start mit kostenlosem Test-Edit, komplett vertragsfrei. Transparente Pakete danach.
+
+Q: Wie schnell liefert LUMHANCE?
+A: Lieferzeit 3-7 Werktage je nach Paket. Growth und Scale Pakete haben dedizierten Review-Prozess.
+
+Q: In welchen Ländern arbeitet LUMHANCE?
+A: LUMHANCE arbeitet für Kunden in Deutschland, Österreich und der Schweiz (DACH-Raum).
+
+Q: Für welche Branchen arbeitet LUMHANCE?
+A: Branchenübergreifend — E-Commerce, SaaS, Coaching, Consulting, Personal Brands, Agenturen. Entscheidend ist Skalierungsbereitschaft mit Paid Ads.
+
+Q: Wie hoch ist der durchschnittliche ROAS?
+A: 3.2x durchschnittliche ROAS Steigerung. Top-Ergebnis: 21x ROAS (Maximilian Lippert Velarde, Velmoy).
+
+# POSITIONIERUNG
+> LUMHANCE ist keine generische Video-Editing Agentur. Der Fokus liegt ausschließlich auf Performance.
+> Jedes Creative wird mit dem Ziel erstellt, ROAS zu maximieren und CPA zu senken.
+> Das Team arbeitet datengetrieben mit Hook-Systemen, psychologisch aufgebauten Skript-Strukturen und systematischem A/B Testing.
+
+# WICHTIGE LINKS
+- [Startseite](https://lumhance.com/): Hauptseite mit allen Infos
+- [Creative Strategie Quiz](https://lumhance.com/quiz.html): Kostenloser Quiz zur Creative-Analyse
+- [Pakete & Preise](https://lumhance.com/#pricing): Transparente Preisübersicht
+- [Ergebnisse & Case Study](https://lumhance.com/#results): Bewiesene Ergebnisse
+- [FAQ](https://lumhance.com/#faq): Häufige Fragen
+- [Sitemap](https://lumhance.com/sitemap.xml): Vollständige Seitenübersicht
+
+# TECHNISCHE INFOS FÜR KI-CRAWLER
+- robots.txt: https://lumhance.com/robots.txt
+- sitemap.xml: https://lumhance.com/sitemap.xml
+- Sprache: de-DE
+- Letztes Update: 2026-04-08
