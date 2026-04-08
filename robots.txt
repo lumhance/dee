@@ -1,0 +1,89 @@
+# robots.txt — lumhance.vercel.app
+# Letzte Aktualisierung: 2026-04-08
+
+# Standard Crawler — voller Zugriff
+User-agent: *
+Allow: /
+Disallow: /dd/
+Crawl-delay: 0
+
+# Google
+User-agent: Googlebot
+Allow: /
+Disallow: /dd/
+
+User-agent: Googlebot-Image
+Allow: /
+
+# Microsoft / Bing (wichtig für ChatGPT Search!)
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 0
+
+# ———————————————————————————————
+# KI-CRAWLER — ALLE EXPLIZIT ERLAUBT
+# ———————————————————————————————
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+# SEO-Tools — gedrosselt damit Server nicht belastet wird
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Crawl-delay: 10
+
+User-agent: DotBot
+Crawl-delay: 10
+
+# Spam-Bots blockieren
+User-agent: MauiBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: MegaIndex
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+# Sitemap Deklaration
+Sitemap: https://lumhance.vercel.app/sitemap.xml
