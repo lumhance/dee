@@ -1083,6 +1083,11 @@
         .hero h1 .line-inner {
             display: block;
             transform: translateY(110%);
+            animation: fallbackReveal 0s 3s forwards;
+        }
+
+        @keyframes fallbackReveal {
+            to { transform: translateY(0); }
         }
 
         .hero h1 .highlight {
@@ -6192,9 +6197,8 @@
                 animId = requestAnimationFrame(render);
             })();
 
-            // ── START HERO ANIMATION IMMEDIATELY ──
+            // ── START HERO ANIMATION (triggered after GSAP loads) ──
             document.body.style.overflow = '';
-            setTimeout(startHeroAnimation, 100);
 
             // ── CUSTOM CURSOR (desktop only) ──
             if (!isMobile) {
@@ -6348,6 +6352,9 @@
                     });
                 });
             }
+
+            // Trigger hero animation
+            setTimeout(startHeroAnimation, 100);
 
             // Section reveals
             gsap.utils.toArray('.section-label').forEach(label => {
@@ -6633,6 +6640,19 @@
                 slide.addEventListener('click', () => {
                     if (slide.classList.contains('prev')) slideCarousel(-1);
                     else if (slide.classList.contains('next')) slideCarousel(1);
+                    else if (slide.classList.contains('active')) {
+                        var video = slide.querySelector('video');
+                        var overlay = slide.querySelector('.play-overlay');
+                        if (video.paused) {
+                            video.play().catch(function(){});
+                            video.classList.add('playing');
+                            if (overlay) overlay.style.opacity = '0';
+                        } else {
+                            video.pause();
+                            video.classList.remove('playing');
+                            if (overlay) overlay.style.opacity = '1';
+                        }
+                    }
                 });
             });
 
