@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jonnycreates — Motion · Design · Storytelling</title>
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --text: #f2f2f2;
+    --muted: #888;
+    --accent: #ff4500;
+    --border: #1f1f1f;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.4;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* Navigation */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    mix-blend-mode: difference;
+  }
+  nav .brand {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    font-size: 0.95rem;
+  }
+  nav ul {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  nav a {
+    font-size: 0.9rem;
+    font-weight: 400;
+    transition: opacity 0.2s;
+  }
+  nav a:hover { opacity: 0.6; }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    padding: 8rem 2.5rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+  .hero-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .hero-main {
+    margin: auto 0;
+  }
+  .hero h1 {
+    font-size: clamp(4rem, 16vw, 16rem);
+    line-height: 0.85;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .hero h1 .outline {
+    -webkit-text-stroke: 2px var(--text);
+    color: transparent;
+    font-style: italic;
+  }
+  .hero-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 3rem;
+  }
+  .hero-tagline {
+    max-width: 420px;
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  .hero-tagline strong { color: var(--text); font-weight: 500; }
+  .scroll-hint {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    writing-mode: vertical-rl;
+  }
+
+  /* CTA Strip */
+  .cta-strip {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .cta-strip .status {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #00ff88;
+    box-shadow: 0 0 12px #00ff88;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .cta-strip h2 {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .cta-btn {
+    border: 1px solid var(--text);
+    padding: 1rem 2rem;
+    border-radius: 100px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    transition: all 0.3s;
+  }
+  .cta-btn:hover {
+    background: var(--text);
+    color: var(--bg);
+  }
+
+  /* Services */
+  .services {
+    padding: 8rem 2.5rem;
+  }
+  .section-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 4rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .section-label::before {
+    content: "";
+    width: 30px;
+    height: 1px;
+    background: var(--muted);
+  }
+  .service {
+    border-top: 1px solid var(--border);
+    padding: 3rem 0;
+    display: grid;
+    grid-template-columns: 80px 1fr 2fr;
+    gap: 2rem;
+    align-items: start;
+    transition: padding 0.4s;
+    cursor: pointer;
+  }
+  .service:hover { padding-left: 1rem; }
+  .service:hover .service-title { color: var(--accent); }
+  .service:last-of-type { border-bottom: 1px solid var(--border); }
+  .service-num {
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+  .service-title {
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    transition: color 0.3s;
+  }
+  .service-desc {
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 480px;
+  }
+
+  /* Work */
+  .work {
+    padding: 8rem 2.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  .work-item {
+    aspect-ratio: 4/3;
+    background: #161616;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s, border-color 0.4s;
+    cursor: pointer;
+  }
+  .work-item::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 70%, rgba(255,69,0,0.15), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .work-item:hover {
+    transform: translateY(-6px);
+    border-color: var(--accent);
+  }
+  .work-item:hover::before { opacity: 1; }
+  .work-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    position: relative;
+  }
+  .work-title {
+    font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    position: relative;
+  }
+
+  /* About */
+  .about {
+    padding: 8rem 2.5rem;
+    border-top: 1px solid var(--border);
+  }
+  .about-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+  .about h2 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+  }
+  .about h2 em {
+    font-style: italic;
+    color: var(--muted);
+    font-weight: 400;
+  }
+  .about-text p {
+    color: var(--muted);
+    margin-bottom: 1.2rem;
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .about-text strong { color: var(--text); font-weight: 500; }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 5rem 2.5rem 2rem;
+  }
+  .footer-big {
+    font-size: clamp(3rem, 12vw, 12rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    text-transform: uppercase;
+    margin-bottom: 4rem;
+  }
+  .footer-big a:hover { color: var(--accent); }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+  .footer-col h4 {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+  .footer-col a {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    transition: opacity 0.2s;
+  }
+  .footer-col a:hover { opacity: 0.6; }
+  .footer-bottom {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    nav ul { gap: 1.2rem; }
+    .hero, .services, .work, .about, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .service { grid-template-columns: 1fr; gap: 1rem; }
+    .work-grid, .about-content, .footer-grid { grid-template-columns: 1fr; }
+    .scroll-hint { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">JONNYCREATES©</div>
+  <ul>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-top">
+    <span>Portfolio · 2026</span>
+    <span>Based in Germany</span>
+  </div>
+
+  <div class="hero-main">
+    <h1>Jonny<br><span class="outline">creates</span></h1>
+  </div>
+
+  <div class="hero-bottom">
+    <p class="hero-tagline">
+      <strong>No Agency-Bullsh*t.</strong> 1:1 Zusammenarbeit mit dem Creator hinter den Projekten — Motion, Design & Storytelling aus einer Hand.
+    </p>
+    <span class="scroll-hint">Scroll ↓</span>
+  </div>
+</section>
+
+<!-- CTA STRIP -->
+<div class="cta-strip">
+  <div class="status">
+    <span class="dot"></span>
+    <span>Verfügbar für neue Projekte</span>
+  </div>
+  <h2>Lass uns etwas Großes bauen.</h2>
+  <a href="#contact" class="cta-btn">Get in touch →</a>
+</div>
+
+<!-- SERVICES -->
+<section class="services">
+  <div class="section-label">Services</div>
+
+  <div class="service">
+    <div class="service-num">001 /</div>
+    <h3 class="service-title">Motion<br>Design</h3>
+    <p class="service-desc">Animationen, die deine Marke zum Leben erwecken. Vom Logo-Reveal bis zum vollständigen Brand-Film — gestaltet mit Liebe zum Detail und einem Auge für Timing.</p>
+  </div>
+
+  <div class="service">
+    <div class="service-num">002 /</div>
+    <h3 class="service-title">Sonic<br>Vision</h3>
+    <p class="service-desc">Sound Design, das Bilder verstärkt und Emotionen transportiert. Jeder Cut, jeder Beat sitzt — für ein audiovisuelles Erlebnis, das in Erinnerung bleibt.</p>
+  </div>
+
+  <div class="service">
+    <div class="service-num">003 /</div>
+    <h3 class="service-title">Story<br>telling</h3>
+    <p class="service-desc">Konzepte und Narrative, die hängenbleiben. Ich helfe dir, deine Botschaft so zu erzählen, dass sie deine Zielgruppe wirklich erreicht.</p>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="work" id="work">
+  <div class="section-label">Selected Work</div>
+  <div class="work-grid">
+    <div class="work-item">
+      <div class="work-meta">
+        <span>Project 01</span>
+        <span>Motion · 2026</span>
+      </div>
+      <h3 class="work-title">Brand Reveal —<br>Lumhance</h3>
+    </div>
+    <div class="work-item">
+      <div class="work-meta">
+        <span>Project 02</span>
+        <span>Design · 2025</span>
+      </div>
+      <h3 class="work-title">Visual System —<br>Loot &amp; Brawl</h3>
+    </div>
+    <div class="work-item">
+      <div class="work-meta">
+        <span>Project 03</span>
+        <span>Film · 2025</span>
+      </div>
+      <h3 class="work-title">Short Film —<br>Jann Karporse</h3>
+    </div>
+    <div class="work-item">
+      <div class="work-meta">
+        <span>Project 04</span>
+        <span>Web · 2026</span>
+      </div>
+      <h3 class="work-title">Personal Site —<br>Velmoy</h3>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-label">About</div>
+  <div class="about-content">
+    <h2>Ich bin Jonny — Creator,<br><em>Designer</em> &amp; <em>Storyteller</em>.</h2>
+    <div class="about-text">
+      <p><strong>Seit Jahren erschaffe ich digitale Welten</strong> — von Motion Graphics über Web-Design bis zu kompletten visuellen Identitäten. Mein Fokus: ehrliche, kraftvolle Arbeit ohne unnötigen Schnickschnack.</p>
+      <p>Ich glaube an direkte Kommunikation, schnelle Iteration und das Handwerk hinter jedem Pixel. Wenn du mit mir arbeitest, arbeitest du mit der Person, die dein Projekt auch wirklich umsetzt — kein Agentur-Filter, keine Calls mit fünf Leuten.</p>
+      <p>Wenn ich nicht gerade an Projekten arbeite, findest du mich beim Erkunden neuer Tools, beim Filmemachen oder beim Träumen vom nächsten großen Ding.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="section-label">Get in touch</div>
+  <div class="footer-big">
+    <a href="mailto:hello@jonnycreates.com">Say<br>Hello →</a>
+  </div>
+
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>Email</h4>
+      <a href="mailto:hello@jonnycreates.com">hello@jonnycreates.com</a>
+    </div>
+    <div class="footer-col">
+      <h4>Social</h4>
+      <a href="#">Instagram</a>
+      <a href="#">YouTube</a>
+      <a href="#">TikTok</a>
+    </div>
+    <div class="footer-col">
+      <h4>Location</h4>
+      <a>Germany 🇩🇪</a>
+    </div>
+    <div class="footer-col">
+      <h4>Status</h4>
+      <a>Available 2026</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2026 Jonnycreates</span>
+    <span>All Rights Reserved</span>
+  </div>
+</footer>
+
+</body>
+</html>
